@@ -169,6 +169,8 @@ app.use(import('./routes/go'));
 app.onError((err) => {
     if (err.code === 'VALIDATION') {
         return { success: false, error: 'Invalid request data' };
+    } else if (err.code === 'NOT_FOUND') {
+        return { success: false, error: 'Resource not found' };
     }
     console.error('Unhandled error:', err);
     return { success: false, error: 'Internal Server Error' };

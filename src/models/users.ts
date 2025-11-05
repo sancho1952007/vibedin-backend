@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const User = mongoose.model('users', new mongoose.Schema({
     _id: String,
     email: String,
-    username: String,
+    username: { type: String, unique: true },
     name: String,
     bio: { type: String, default: '' },
     pfp: { type: String, default: '/images/default-pfp.png' },
