@@ -9,8 +9,7 @@ import jsonwebtoken from 'jsonwebtoken';
 const app = new Elysia();
 
 app.use(cors({
-    // origin: Bun.env.FRONTEND_URL!,
-    origin: '127.0.0.1:5173',
+    origin: Bun.env.COOKIE_DOMAIN!,
     credentials: true
 }));
 
