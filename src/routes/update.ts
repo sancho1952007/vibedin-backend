@@ -1,6 +1,11 @@
 import Elysia, { t } from "elysia";
 import jwt from "jsonwebtoken";
 import User from "../models/users";
+import OpenAI from 'openai';
+
+const OpenAIClient = new OpenAI({
+    apiKey: Bun.env.OPENAI_API_KEY
+});
 
 export default new Elysia().post('/update', async ({ body, cookie: { session } }) => {
     const token: { id: string } = jwt.verify(session.value!.toString(), Bun.env.JWT_SECRET!) as any;

@@ -43,6 +43,6 @@ export default new Elysia().post('/cancel-subscription', async ({ body, cookie: 
         session: t.String()
     }),
     body: t.Object({
-        reason: t.String()
+        reason: t.Optional(t.String())
     })
 });
