@@ -4,11 +4,11 @@ import User from "../models/users";
 import DodoPayClient from "../utils/dodopayments";
 
 export default new Elysia().get('/purchase-premium', async ({ cookie, redirect }) => {
-    if (!('session' in cookie) || !cookie.session.value) {
+    if (!('vibedin-session' in cookie) || !cookie['vibedin-session'].value) {
         return redirect(`${Bun.env.FRONTEND_URL}/`);
     }
 
-    const token: { id: string } = jwt.verify(cookie.session.value!.toString(), Bun.env.JWT_SECRET!) as any;
+    const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
 
     // Make sure user exists
     const user = await User.findById(token.id).lean();

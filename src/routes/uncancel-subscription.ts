@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import PremiumUser from "../models/premium-users";
 import DodoPayClient from "../utils/dodopayments";
 
-export default new Elysia().post('/uncancel-subscription', async ({ cookie: { session } }) => {
-    const token: { id: string } = jwt.verify(session.value!.toString(), Bun.env.JWT_SECRET!) as any;
+export default new Elysia().post('/uncancel-subscription', async ({ cookie }) => {
+    const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
     const user = await PremiumUser.findById(token.id);
     if (user) {
         const uncancel = await DodoPayClient.subscriptions.update(user.subscription_id as string, {

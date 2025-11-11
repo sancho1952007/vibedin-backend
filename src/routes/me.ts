@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/users";
 
 export default new Elysia().post('/me', async ({ cookie }) => {
-    if (cookie.session.value) {
-        const token: { id: string } = jwt.verify(cookie.session.value.toString(), Bun.env.JWT_SECRET!) as any;
+    if (cookie['vibedin-session'].value) {
+        const token: { id: string } = jwt.verify(cookie['vibedin-session'].value.toString(), Bun.env.JWT_SECRET!) as any;
         const user = await User.findById(token.id).select('-__v -oauth').lean();
         // Just in case
         if (!user) {

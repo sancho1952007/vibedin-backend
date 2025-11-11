@@ -117,10 +117,10 @@ app.use(
                 expiresIn: '106d' // ~3.5 months
             });
 
-        cookie.session.value = token;
-        cookie.session.domain = Bun.env.COOKIE_DOMAIN!;
-        cookie.session.secure = true;
-        cookie.session.maxAge = 3 * (4 * 60 * 60 * 24 * 7); // 3 month expiry
+        cookie['vibedin-session'].value = token;
+        cookie['vibedin-session'].domain = Bun.env.COOKIE_DOMAIN!;
+        cookie['vibedin-session'].secure = true;
+        cookie['vibedin-session'].maxAge = 3 * (4 * 60 * 60 * 24 * 7); // 3 month expiry
 
         return redirect(`${Bun.env.FRONTEND_URL}/settings`);
     } catch (e) {

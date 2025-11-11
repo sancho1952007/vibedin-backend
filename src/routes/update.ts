@@ -9,9 +9,9 @@ const ai = new GoogleGenAI({
 
 // console.log(JSON.parse(moderation.candidates?.[0].content?.parts?.[0].text?.replace('```json', '').replace('```', '').trim() as string));
 
-export default new Elysia().post('/update', async ({ body, cookie: { session } }) => {
+export default new Elysia().post('/update', async ({ body, cookie }) => {
     try {
-        const token: { id: string } = jwt.verify(session.value!.toString(), Bun.env.JWT_SECRET!) as any;
+        const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
         const user = await User.findById(token.id);
         if (!user) {
             return { success: false, error: "User not found" };
@@ -55,7 +55,7 @@ export default new Elysia().post('/update', async ({ body, cookie: { session } }
         return { success: false, error: "An error occurred while saving the profile" };
     }
 }, {
-    cookie: t.Object({ session: t.String() }),
+    cookie: t.Object({ 'vibedin-session': t.String() }),
     body: t.Object({
         bio: t.String({ minLength: 0, maxLength: 500 }),
         tags: t.Array(t.String(), { maxItems: 5 }),

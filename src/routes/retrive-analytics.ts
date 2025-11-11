@@ -3,8 +3,8 @@ import PremiumUser from "../models/premium-users";
 import jwt from "jsonwebtoken";
 import UserAnalytic from "../models/user-analytics";
 
-export default new Elysia().post('/retrieve-analytics', async ({ body, cookie: { session } }) => {
-    const token: { id: string } = jwt.verify(session.value!.toString(), Bun.env.JWT_SECRET!) as any;
+export default new Elysia().post('/retrieve-analytics', async ({ body, cookie }) => {
+    const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
     const user = await PremiumUser.findById(token.id);
     if (user) {
         const clicksCount = await UserAnalytic.find({
@@ -39,6 +39,6 @@ export default new Elysia().post('/retrieve-analytics', async ({ body, cookie: {
         endDate: t.String()
     }),
     cookie: t.Object({
-        session: t.String()
+        'vibedin-session': t.String()
     })
 });
