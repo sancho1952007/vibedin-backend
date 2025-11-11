@@ -7,8 +7,6 @@ const ai = new GoogleGenAI({
     apiKey: Bun.env.GOOGLE_API_KEY!
 });
 
-// console.log(JSON.parse(moderation.candidates?.[0].content?.parts?.[0].text?.replace('```json', '').replace('```', '').trim() as string));
-
 export default new Elysia().post('/update', async ({ body, cookie }) => {
     try {
         const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;

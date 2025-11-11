@@ -97,8 +97,7 @@ app.use(
             pfp: user.profile_image_url.replace('_normal', '_400x400'),
             refreshToken: refreshToken,
             lastLogin: new Date()
-        }, { upsert: true, new: true }
-        );
+        }, { upsert: true, new: true });
 
         const token = jsonwebtoken.sign(
             {
@@ -159,7 +158,6 @@ app.get('/', () => {
 
 app.use(import('./routes/go'));
 app.use(import('./routes/me'));
-app.use(import('./routes/users'));
 app.use(import('./routes/update'));
 app.use(import('./routes/get-users'));
 app.use(import('./routes/premium-status'));

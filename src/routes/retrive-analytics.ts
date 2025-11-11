@@ -5,7 +5,7 @@ import UserAnalytic from "../models/user-analytics";
 
 export default new Elysia().post('/retrieve-analytics', async ({ body, cookie }) => {
     const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
-    const user = await PremiumUser.findById(token.id);
+    const user = await PremiumUser.findById(token.id).lean();
     if (user) {
         const clicksCount = await UserAnalytic.find({
             type: 'click',

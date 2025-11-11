@@ -4,7 +4,7 @@ import PremiumUser from '../models/premium-users';
 
 export default new Elysia().post('/premium-status', async ({ cookie }) => {
     const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
-    const user = await PremiumUser.findById(token.id);
+    const user = await PremiumUser.findById(token.id).lean();
     if (user) {
         return {
             success: true,

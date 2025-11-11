@@ -16,6 +16,7 @@ const User = mongoose.model('users', new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     tags: { type: [String], default: [] },
     isVisible: { type: Boolean, default: true },
+    lastLogin: { type: Date, default: Date.now },
 }));
 
 export default User;

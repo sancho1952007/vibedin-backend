@@ -46,6 +46,7 @@ export default new Elysia().post('/payment-webhook', async ({ headers, body, set
                 status: 'on_hold',
                 statusUpdatedAt: new Date()
             });
+
             console.log(`Processed subscription on-hold for user ${payment.data.metadata.userID}`);
 
             set.status = 200;
