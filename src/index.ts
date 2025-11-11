@@ -168,6 +168,11 @@ app.use(import('./routes/retrive-analytics'));
 app.use(import('./routes/cancel-subscription'));
 app.use(import('./routes/uncancel-subscription'));
 
+app.get('/logout', ({ cookie, redirect }) => {
+    cookie['vibedin-session'].remove();
+    return redirect(Bun.env.FRONTEND_URL!);
+});
+
 app.onError((err) => {
     if (err.code === 'VALIDATION') {
         return { success: false, error: 'Invalid request data' };
