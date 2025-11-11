@@ -15,7 +15,10 @@ export default new Elysia().post('/payment-webhook', async ({ headers, body, set
         });
 
         // Subscription start/renewed
-        if (payment.type === 'subscription.renewed' && payment.data.product_id === Bun.env.DODO_PAYMENTS_PRODUCT_ID) {
+        if (payment.type === 'subscription.renewed' && payment.data.product_id === Bun.env.DODO_PAYMENTS_PRODUCT_ID
+            ||
+            payment.type === 'subscription.active' && payment.data.product_id === Bun.env.DODO_PAYMENTS_PRODUCT_ID
+        ) {
             await PremiumUser.findByIdAndUpdate(payment.data.metadata.userID, {
                 subscription_id: payment.data.subscription_id,
                 nextPayment: payment.data.next_billing_date,
