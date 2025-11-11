@@ -5,15 +5,8 @@ import { OAuth2RequestError, ArcticFetchError } from "arctic";
 import User from './models/users';
 import { cors } from '@elysiajs/cors';
 import jsonwebtoken from 'jsonwebtoken';
-import * as Sentry from "@sentry/bun";
 
 const app = new Elysia();
-
-Sentry.init({
-    dsn: "https://46468f94c2684ff7a0233fcc08bb15be@bugsink.sg-app.com/1",
-    integrations: [],
-    tracesSampleRate: 0,
-});
 
 app.use(cors({
     origin: Bun.env.FRONTEND_URL!,
@@ -185,9 +178,9 @@ app.onError((err) => {
     }
 
     // Store unhandled errors in Sentry only in production
-    if (Bun.env.NODE_ENV === 'production') {
-        Sentry.captureException(err);
-    }
+    // if (Bun.env.NODE_ENV === 'production') {
+    //     Sentry.captureException(err);
+    // }
 
     console.error(err);
     return { success: false, error: 'Internal Server Error' };
