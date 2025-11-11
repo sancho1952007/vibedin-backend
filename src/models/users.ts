@@ -7,7 +7,7 @@ const User = mongoose.model('users', new mongoose.Schema({
     name: String,
     bio: { type: String, default: '' },
     pfp: { type: String, default: '/images/default-pfp.png' },
-    // Vibrix tier
+    // VibedIn tier
     tier: {
         type: String,
         enum: ['free', 'premium'],

@@ -153,13 +153,15 @@ app.use(
 });
 
 // Connect to MongoDB
-mongoose.connect(Bun.env.MONGODB_URL!)
+mongoose.connect(Bun.env.MONGODB_URL!, {
+    dbName: 'test'
+})
     .then(() => console.log('✅ Connected to MongoDB'))
     .catch(err => console.error('❌ MongoDB connection error:', err));
 
 
 app.get('/', () => {
-    return "Hello From Vibrix Backend!";
+    return "Hello From VibedIn Backend!";
 });
 
 app.use(import('./routes/go'));
@@ -186,7 +188,8 @@ app.onError((err) => {
     if (Bun.env.NODE_ENV === 'production') {
         Sentry.captureException(err);
     }
-    console.error('Unhandled error:', err);
+
+    console.error(err);
     return { success: false, error: 'Internal Server Error' };
 });
 

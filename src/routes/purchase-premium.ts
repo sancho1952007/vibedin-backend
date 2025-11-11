@@ -24,9 +24,6 @@ export default new Elysia().get('/purchase-premium', async ({ cookie, redirect }
                 userID: user._id?.toString() as string
             },
             return_url: `${Bun.env.FRONTEND_URL}/premium`,
-            feature_flags: {
-                allow_discount_code: false
-            }
         });
 
         return redirect(dodo_session.checkout_url);

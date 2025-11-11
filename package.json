@@ -3,10 +3,11 @@
     "dev": "bun --watch src/index",
     "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./dist/server src/index.ts",
     "start": "./dist/server",
-    "web": "bun \"/Users/sanchogodinho/Documents/Projects - Side/Expose Localhost/client/index\" --server-url wss://tunnels.sg-app.com --domain-url vibrix-dev.sg-app.com --port 3000  --token vrRuob1EbotPDiDq2IHov9XP5xsPc8M0O6UBjLiVia7v2TYyQS"
+    "web": "bun \"/Users/sanchogodinho/Documents/Projects - Side/Expose Localhost/client/index\" --server-url wss://tunnels.sg-app.com --domain-url vibedin-dev.sg-app.com --port 3000  --token vrRuob1EbotPDiDq2IHov9XP5xsPc8M0O6UBjLiVia7v2TYyQS"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.4.0",
+    "@google/genai": "^1.29.0",
     "@sentry/bun": "^10.23.0",
     "cookie-parser": "^1.4.7",
     "dodopayments": "^2.4.2",
@@ -17,7 +18,6 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.2",
-    "openai": "^6.8.1",
     "sharp": "^0.34.4"
   },
   "devDependencies": {
