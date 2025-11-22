@@ -16,18 +16,20 @@ export default new Elysia().post('/cancel-subscription', async ({ body, cookie }
             user.statusUpdatedAt = new Date();
             await user.save();
 
-            // Send this asynchronously to avoid delaying the response
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    access_key: 'f193232f-1e16-47b3-8fff-fe479bf083c0',
-                    'VibedIn Cancel Reason': body.reason,
-                })
-            });
+            if (body.reason?.trim() !== '') {
+                // Not used `await` to send this asynchronously to avoid delaying the response
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        access_key: 'f193232f-1e16-47b3-8fff-fe479bf083c0',
+                        'VibedIn Cancel Reason': body.reason,
+                    })
+                });
+            }
 
             console.log(`User ${user._id} has cancelled their subscription.`);
 

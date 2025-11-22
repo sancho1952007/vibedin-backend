@@ -55,7 +55,7 @@ export default new Elysia().post('/update', async ({ body, cookie }) => {
 }, {
     cookie: t.Object({ 'vibedin-session': t.String() }),
     body: t.Object({
-        bio: t.String({ minLength: 0, maxLength: 500 }),
+        bio: t.String({ minLength: 0, maxLength: 300 }),
         tags: t.Array(t.String(), { maxItems: 5 }),
         isVisible: t.Boolean()
     })
