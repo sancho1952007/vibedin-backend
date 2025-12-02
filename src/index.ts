@@ -1,12 +1,27 @@
 import { Elysia } from 'elysia';
 import mongoose from 'mongoose';
-import { oauth2 } from "elysia-oauth2";
-import { OAuth2RequestError, ArcticFetchError } from "arctic";
 import User from './models/users';
 import { cors } from '@elysiajs/cors';
+import { oauth2 } from "elysia-oauth2";
 import jsonwebtoken from 'jsonwebtoken';
+import { rateLimit } from 'elysia-rate-limit';
+import { OAuth2RequestError, ArcticFetchError } from "arctic";
 
 const app = new Elysia();
+
+app.use(rateLimit({
+    // Set 1 timeframe = 1 minute
+    duration: 60000,
+    // Max 50 requests per timeframe
+    // Therefore 50 requests per minute
+    max: 50,
+    // For Cloudflare setup
+    generator: (req) => {
+        return req.headers.get('CF-Connecting-IP') ?? '';
+    },
+    // as unknown as string to surpress ts error
+    errorResponse: ({ success: false, error: 'Too many requests' } as unknown as string)
+}));
 
 app.use(cors({
     origin: Bun.env.FRONTEND_URL!,
