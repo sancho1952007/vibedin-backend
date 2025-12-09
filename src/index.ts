@@ -4,24 +4,31 @@ import User from './models/users';
 import { cors } from '@elysiajs/cors';
 import { oauth2 } from "elysia-oauth2";
 import jsonwebtoken from 'jsonwebtoken';
-import { rateLimit } from 'elysia-rate-limit';
+import client from './utils/redis-client';
 import { OAuth2RequestError, ArcticFetchError } from "arctic";
 
 const app = new Elysia();
 
-app.use(rateLimit({
-    // Set 1 timeframe = 1 minute
-    duration: 60000,
-    // Max 50 requests per timeframe
-    // Therefore 50 requests per minute
-    max: 50,
-    // For Cloudflare setup
-    generator: (req) => {
-        return req.headers.get('CF-Connecting-IP') ?? '';
-    },
-    // as unknown as string to surpress ts error
-    errorResponse: ({ success: false, error: 'Too many requests' } as unknown as string)
-}));
+app.onBeforeHandle(async ({ headers, set }) => {
+    const ip = headers['CF-Connecting-IP'] || 'undefined';
+    if (!ip) return;
+
+    const key = `rate_limit:${ip}`;
+    const limit = 50;
+    const duration = 60; // 60 seconds
+
+    const current = await client.incr(key);
+
+    // Set expiry on first request
+    if (current === 1) {
+        await client.expire(key, duration);
+    }
+
+    if (current > limit) {
+        set.status = 429;
+        return { success: false, error: 'Too many requests' };
+    }
+});
 
 app.use(cors({
     origin: Bun.env.FRONTEND_URL!,
