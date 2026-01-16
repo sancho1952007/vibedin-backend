@@ -1,10 +1,10 @@
-import Elysia from "elysia";
+import Elysia, { t } from "elysia";
 import jwt from "jsonwebtoken";
 import PremiumUser from "../models/premium-users";
 import DodoPayClient from "../utils/dodopayments";
 
 export default new Elysia().post('/uncancel-subscription', async ({ cookie }) => {
-    const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
+    const token: { id: string } = jwt.verify(cookie['vibedin-session'].value.toString(), Bun.env.JWT_SECRET!) as any;
     const user = await PremiumUser.findById(token.id);
     if (user) {
         const uncancel = await DodoPayClient.subscriptions.update(user.subscription_id as string, {
@@ -25,4 +25,8 @@ export default new Elysia().post('/uncancel-subscription', async ({ cookie }) =>
     } else {
         return { success: false, error: "You never subscribe to premium" };
     }
+}, {
+    cookie: t.Object({
+        'vibedin-session': t.String()
+    })
 });

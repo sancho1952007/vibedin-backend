@@ -4,7 +4,7 @@ import PremiumUser from "../models/premium-users";
 import DodoPayClient from "../utils/dodopayments";
 
 export default new Elysia().post('/cancel-subscription', async ({ body, cookie }) => {
-    const token: { id: string } = jwt.verify(cookie['vibedin-session'].value!.toString(), Bun.env.JWT_SECRET!) as any;
+    const token: { id: string } = jwt.verify(cookie['vibedin-session'].value.toString(), Bun.env.JWT_SECRET!) as any;
     const user = await PremiumUser.findById(token.id);
     if (user) {
         const cancel = await DodoPayClient.subscriptions.update(user.subscription_id as string, {
