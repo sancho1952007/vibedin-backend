@@ -4,21 +4,21 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "@elysiajs/cors": "^1.4.0",
-        "@google/genai": "^1.29.0",
+        "@elysiajs/cors": "^1.4.1",
+        "@google/genai": "^1.37.0",
         "cookie-parser": "^1.4.7",
-        "dodopayments": "^2.4.2",
-        "dodopayments-webhooks": "^1.1.2",
+        "dodopayments": "^2.14.3",
+        "dodopayments-webhooks": "^1.2.0",
         "dotenv": "^17.2.3",
-        "elysia": "^1.4.15",
+        "elysia": "^1.4.22",
         "elysia-oauth2": "^2.1.0",
-        "express": "^5.1.0",
-        "jsonwebtoken": "^9.0.2",
-        "mongoose": "^8.19.2",
-        "sharp": "^0.34.4",
+        "express": "^5.2.1",
+        "jsonwebtoken": "^9.0.3",
+        "mongoose": "^8.21.0",
+        "sharp": "^0.34.5",
       },
       "devDependencies": {
-        "@types/bun": "^1.3.1",
+        "@types/bun": "^1.3.6",
         "@types/jsonwebtoken": "^9.0.10",
       },
     },
@@ -30,7 +30,7 @@
 
     "@emnapi/runtime": ["@emnapi/runtime@1.7.0", "", { "dependencies": { "tslib": "^2.4.0" } }, "sha512-oAYoQnCYaQZKVS53Fq23ceWMRxq5EhQsE0x0RdQ55jT7wagMu5k+fS39v1fiSLrtrLQlXwVINenqhLMtTrV/1Q=="],
 
-    "@google/genai": ["@google/genai@1.37.0", "", { "dependencies": { "google-auth-library": "^10.3.0", "protobufjs": "^7.5.4", "ws": "^8.18.0" }, "peerDependencies": { "@modelcontextprotocol/sdk": "^1.25.2" }, "optionalPeers": ["@modelcontextprotocol/sdk"] }, "sha512-of85LwNqretPhBHHEljUY05OSsQVUPyw5n1RdNkUpKR36kgHq7CVVEGY4GplVbFaqbdT3DXfLSv5B/Avbe5vXw=="],
+    "@google/genai": ["@google/genai@1.38.0", "", { "dependencies": { "google-auth-library": "^10.3.0", "protobufjs": "^7.5.4", "ws": "^8.18.0" }, "peerDependencies": { "@modelcontextprotocol/sdk": "^1.25.2" }, "optionalPeers": ["@modelcontextprotocol/sdk"] }, "sha512-V/4CQVQGovvGHuS73lwJwHKR9x33kCij3zz/ReEQ4A7RJaV0U7m4k1mvYhFk55cGZdF5JLKu2S9BTaFuEs5xTA=="],
 
     "@img/colour": ["@img/colour@1.0.0", "", {}, "sha512-A5P/LfWGFSl6nsckYtjw9da+19jB8hkJ6ACTGcDfEJ0aE+l2n2El7dsVM7UVHZQ9s2lmYMWlrS21YLy2IR1LUw=="],
 
@@ -194,7 +194,7 @@
 
     "detect-libc": ["detect-libc@2.1.2", "", {}, "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="],
 
-    "dodopayments": ["dodopayments@2.14.3", "", { "dependencies": { "standardwebhooks": "^1.0.0" }, "bin": { "dodopayments": "bin/cli" } }, "sha512-WJ0bpTgoNLeMIwysc2hpKE+Gs723AMVt8SGVy9/UC2auhvHB0l4cXCYcPjfhplPugQQUcwrwu2EwtpiK4/9x2Q=="],
+    "dodopayments": ["dodopayments@2.16.0", "", { "dependencies": { "standardwebhooks": "^1.0.0" }, "bin": { "dodopayments": "bin/cli" } }, "sha512-Vlo3jt4cqsqiSCAXI3BS7fGzO5CFId34+/a8ii6TYpEtJtIsMNn+jEHEkQSNLfYrzpWhE07oAAImGCaQi0GC+Q=="],
 
     "dodopayments-webhooks": ["dodopayments-webhooks@1.2.0", "", { "dependencies": { "standardwebhooks": "^1.0.0" } }, "sha512-W+SzV0bBq2TPXAOgpvBMX7p0pNB3oG64LJWiOXDKlgBoEMapS/JY/i+NB0UkZHNWevvUV4CVLmM9ptzQRBD5Fg=="],
 
