@@ -2,8 +2,7 @@
   "scripts": {
     "dev": "bun --watch src/index",
     "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile ./dist/server src/index.ts",
-    "start": "./dist/server",
-    "web": "bun \"/Users/sanchogodinho/Documents/Projects - Side/Expose Localhost/client/index\" --server-url wss://tunnels.sg-app.com --domain-url vibedin-dev.sg-app.com --port 3000  --token vrRuob1EbotPDiDq2IHov9XP5xsPc8M0O6UBjLiVia7v2TYyQS"
+    "start": "./dist/server"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.4.1",
