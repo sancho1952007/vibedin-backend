@@ -1,30 +1,42 @@
-# Use the official Bun image as base
-FROM oven/bun:1 AS prod
-WORKDIR /usr/src/app
+# syntax=docker/dockerfile:1
 
-# Copy lockfile & package.json first to leverage layer caching
-COPY package.json bun.lock* ./
+############################
+# Stage 1 — Download binary
+############################
+FROM alpine:3.19 AS downloader
 
-# Install only production dependencies
-RUN bun install --frozen-lockfile --production
+RUN apk add --no-cache curl jq
 
-# Copy source files
-COPY . .
+ARG sancho1952007
+ARG vibedin-backend
 
-# Build your project (if you compile TS)
-RUN bun run build
+RUN set -eux; \
+    API_URL="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest"; \
+    \
+    JSON=$(curl -fsSL "$API_URL"); \
+    \
+    DOWNLOAD_URL=$(echo "$JSON" | jq -r \
+      '.assets[] | select(.name=="linux-amd64") | .browser_download_url'); \
+    \
+    if [ -z "$DOWNLOAD_URL" ] || [ "$DOWNLOAD_URL" = "null" ]; then \
+      echo "Asset 'linux-amd64' not found in latest release"; \
+      exit 1; \
+    fi; \
+    \
+    echo "Downloading $DOWNLOAD_URL"; \
+    curl -fsSL "$DOWNLOAD_URL" -o /app; \
+    chmod +x /app
 
-# Optionally remove dev files or prune if needed (not always supported)
-# RUN bun prune   # if your project/setup supports it
 
-# Set environment
-ENV NODE_ENV=production
+############################
+# Stage 2 — Minimal runtime
+############################
+FROM alpine:3.19
 
-# Run under non-root user (Bun image has user “bun”)
-USER bun
+RUN adduser -D appuser
 
-# Expose your port
-EXPOSE 3000
+COPY --from=downloader /app /usr/local/bin/app
 
-# Command to run your app – adjust if your entrypoint is different
-CMD ["bun", "run", "start"]
+USER appuser
+
+ENTRYPOINT ["/usr/local/bin/app"]
