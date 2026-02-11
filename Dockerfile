@@ -1,12 +1,10 @@
-# syntax=docker/dockerfile:1
-
 ############################
 # Stage 1 — Download release
 ############################
 FROM debian:bookworm-slim AS downloader
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl jq && \
+    apt-get install -y --no-install-recommends curl jq ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 ARG GITHUB_OWNER
@@ -16,11 +14,6 @@ RUN set -eux; \
     API_URL="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest"; \
     curl -fsSL "$API_URL" -o /tmp/release.json; \
     DOWNLOAD_URL=$(jq -r '.assets[0].browser_download_url' /tmp/release.json); \
-    if [ -z "$DOWNLOAD_URL" ] || [ "$DOWNLOAD_URL" = "null" ]; then \
-        echo "No release asset found"; \
-        cat /tmp/release.json; \
-        exit 1; \
-    fi; \
     curl -fsSL "$DOWNLOAD_URL" -o /app; \
     chmod +x /app
 
