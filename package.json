@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "bun --watch src/index",
-    "build": "bun build --compile --minify-whitespace --minify-syntax --target bun-linux-x64 --outfile ./dist/linux-amd64 src/index.ts",
+    "build": "bun build --compile --minify-whitespace --minify-syntax --target bun-linux-x64-musl --outfile ./dist/linux-x64-musl src/index.ts",
     "start": "./dist/server"
   },
   "dependencies": {

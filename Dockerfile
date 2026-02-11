@@ -16,10 +16,10 @@ RUN set -eux; \
     JSON=$(curl -fsSL "$API_URL"); \
     \
     DOWNLOAD_URL=$(echo "$JSON" | jq -r \
-      '.assets[] | select(.name=="linux-amd64") | .browser_download_url'); \
+      '.assets[] | select(.name=="linux-x64-musl") | .browser_download_url'); \
     \
     if [ -z "$DOWNLOAD_URL" ] || [ "$DOWNLOAD_URL" = "null" ]; then \
-      echo "Asset 'linux-amd64' not found in latest release"; \
+      echo "Asset 'linux-x64-musl' not found in latest release"; \
       exit 1; \
     fi; \
     \
