@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "bun --watch src/index",
     "build": "bun build --compile --minify-whitespace --minify-syntax --target bun-linux-x64 --outfile ./dist/linux-amd64 src/index.ts",
-    "start": "./dist/server"
+    "start": "./dist/server",
+    "compress": "cd dist && tar -czvf ./linux-amd64.tar.gz ./linux-amd64"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.4.1",
