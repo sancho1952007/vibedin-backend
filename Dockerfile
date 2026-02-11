@@ -7,8 +7,8 @@ FROM alpine:3.19 AS downloader
 
 RUN apk add --no-cache curl jq
 
-ARG sancho1952007
-ARG vibedin-backend
+ARG GITHUB_OWNER
+ARG GITHUB_REPO
 
 RUN set -eux; \
     API_URL="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest"; \
