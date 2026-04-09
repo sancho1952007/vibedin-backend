@@ -1,47 +1,30 @@
-# syntax=docker/dockerfile:1
+# Use the official Bun image as base
+FROM oven/bun:1.3.11@sha256:0733e50325078969732ebe3b15ce4c4be5082f18c4ac1a0f0ca4839c2e4e42a7 AS prod
+WORKDIR /usr/src/app
 
-############################
-# Stage 1 — Download release
-############################
-FROM debian:bookworm-slim AS downloader
+# Copy lockfile & package.json first to leverage layer caching
+COPY package.json bun.lock* ./
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl jq ca-certificates tar && \
-    rm -rf /var/lib/apt/lists/*
+# Install only production dependencies
+RUN bun install --frozen-lockfile --production
 
-ARG GITHUB_OWNER
-ARG GITHUB_REPO
+# Copy source files
+COPY . .
 
-RUN set -eux; \
-    API_URL="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest"; \
-    \
-    curl -fsSL "$API_URL" -o /tmp/release.json; \
-    \
-    DOWNLOAD_URL=$(jq -r '.assets[0].browser_download_url' /tmp/release.json); \
-    \
-    if [ -z "$DOWNLOAD_URL" ] || [ "$DOWNLOAD_URL" = "null" ]; then \
-        echo "No release asset found"; \
-        cat /tmp/release.json; \
-        exit 1; \
-    fi; \
-    \
-    curl -fsSL "$DOWNLOAD_URL" -o /tmp/app.tar.gz; \
-    \
-    mkdir -p /tmp/extract; \
-    tar -xzf /tmp/app.tar.gz -C /tmp/extract; \
-    \
-    mv /tmp/extract/linux-amd64 /app; \
-    chmod +x /app
+# Build your project (if you compile TS)
+RUN bun run build
 
-############################
-# Stage 2 — Runtime
-############################
-FROM debian:bookworm-slim
+# Optionally remove dev files or prune if needed (not always supported)
+# RUN bun prune   # if your project/setup supports it
 
-RUN useradd -m -u 1000 appuser
+# Set environment
+ENV NODE_ENV=production
 
-COPY --from=downloader /app /usr/local/bin/app
+# Run under non-root user (Bun image has user “bun”)
+USER bun
 
-USER appuser
+# Expose your port
+EXPOSE 3000
 
-ENTRYPOINT ["/usr/local/bin/app"]
+# Command to run your app – adjust if your entrypoint is different
+CMD ["bun", "run", "start"]
