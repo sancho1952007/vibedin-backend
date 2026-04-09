@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "bun --watch src/index",
     "build": "bun build --minify-whitespace --minify-syntax --outfile ./dist/server.js src/index.ts --target bun",
-    "start": "./dist/server.js",
+    "start": "bun ./dist/server.js",
     "compress": "cd dist && tar -czvf ./linux-amd64.tar.gz ./linux-amd64"
   },
   "dependencies": {
