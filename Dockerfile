@@ -1,30 +1,22 @@
-# Use the official Bun image as base
-FROM docker.io/oven/bun:1-alpine@sha256:eeb45d705f56dc0ceea4bbe793f9386ae07d47e695424f0b1fd2b5a8feccd431 AS prod
+# ── Build stage: runs natively on amd64 (fast) ──────────────────────
+FROM --platform=$BUILDPLATFORM docker.io/oven/bun:1-alpine@sha256:26d8996560ca94eab9ce48afc0c7443825553c9a851f40ae574d47d20906826d AS builder
 WORKDIR /usr/src/app
 
-# Copy lockfile & package.json first to leverage layer caching
 COPY package.json bun.lock* ./
-
-# Install only production dependencies
 RUN bun install --frozen-lockfile --production
 
-# Copy source files
 COPY . .
-
-# Build your project (if you compile TS)
 RUN bun run build
 
-# Optionally remove dev files or prune if needed (not always supported)
-# RUN bun prune   # if your project/setup supports it
+# ── Runtime stage: arm64 image pulled from registry ──────────────────
+FROM --platform=linux/arm64 docker.io/oven/bun:1-alpine@sha256:26d8996560ca94eab9ce48afc0c7443825553c9a851f40ae574d47d20906826d AS prod
+WORKDIR /usr/src/app
 
-# Set environment
+# Copy only the built output — no dev tooling, no source files
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+
 ENV NODE_ENV=production
-
-# Run under non-root user (Bun image has user “bun”)
 USER bun
-
-# Expose your port
 EXPOSE 3000
-
-# Command to run your app – adjust if your entrypoint is different
 CMD ["bun", "run", "start"]
