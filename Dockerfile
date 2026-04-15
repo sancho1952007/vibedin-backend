@@ -9,7 +9,7 @@ COPY . .
 RUN bun run build
 
 # ── Runtime stage: arm64 image pulled from registry ──────────────────
-FROM --platform=linux/arm64 docker.io/oven/bun:1-alpine@sha256:26d8996560ca94eab9ce48afc0c7443825553c9a851f40ae574d47d20906826d AS prod
+FROM docker.io/oven/bun:1-alpine@sha256:eeb45d705f56dc0ceea4bbe793f9386ae07d47e695424f0b1fd2b5a8feccd431 AS prod
 WORKDIR /usr/src/app
 
 # Copy only the built output — no dev tooling, no source files
