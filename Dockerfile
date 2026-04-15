@@ -19,4 +19,4 @@ COPY --from=builder /usr/src/app/node_modules ./node_modules
 ENV NODE_ENV=production
 USER bun
 EXPOSE 3000
-CMD ["bun", "run", "start"]
+CMD ["bun", "./dist/server.js"]
