@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY package.json bun.lock* ./
 
 # Install only production dependencies
-RUN bun install --frozen-lockfile --production
+RUN bun install ci
 
 # Copy source files
 COPY . .
