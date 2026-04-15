@@ -5,7 +5,7 @@ import DodoPayClient from "../utils/dodopayments";
 
 export default new Elysia().post('/payment-webhook', async ({ headers, body, set }) => {
     try {
-        const payment = DodoPayClient.webhooks.unwrap(body.toString(), {
+        const payment = DodoPayClient.webhooks.unwrap(JSON.stringify(body), {
             headers: {
                 'webhook-id': headers['webhook-id']!,
                 'webhook-signature': headers['webhook-signature']!,
