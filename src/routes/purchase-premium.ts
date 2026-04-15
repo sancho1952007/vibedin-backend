@@ -23,10 +23,11 @@ export default new Elysia().get('/purchase-premium', async ({ cookie, redirect }
             metadata: {
                 userID: user._id?.toString() as string
             },
+            minimal_address: true,
             return_url: `${Bun.env.FRONTEND_URL}/premium`,
         });
 
-        return redirect(dodo_session.checkout_url);
+        return redirect(dodo_session.checkout_url!);
     } else {
         return redirect(`${Bun.env.FRONTEND_URL}/`);
     }
