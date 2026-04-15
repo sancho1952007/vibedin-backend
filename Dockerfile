@@ -1,12 +1,12 @@
 # Use the official Bun image as base
-FROM oven/bun:1.3.11@sha256:0733e50325078969732ebe3b15ce4c4be5082f18c4ac1a0f0ca4839c2e4e42a7 AS prod
+FROM docker.io/oven/bun:1-alpine@sha256:26d8996560ca94eab9ce48afc0c7443825553c9a851f40ae574d47d20906826d AS prod
 WORKDIR /usr/src/app
 
 # Copy lockfile & package.json first to leverage layer caching
 COPY package.json bun.lock* ./
 
 # Install only production dependencies
-RUN bun install ci
+RUN bun install --frozen-lockfile --production
 
 # Copy source files
 COPY . .
