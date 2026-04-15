@@ -1,17 +1,16 @@
 import Elysia, { t } from "elysia";
-import { DodopaymentsHandler } from 'dodopayments-webhooks';
 import PremiumUser from "../models/premium-users";
 import User from "../models/users";
-
-const PaymentHandler = new DodopaymentsHandler({
-    signing_key: Bun.env.DODO_PAYMENTS_WEBHOOK_SIGNING_KEY!
-});
+import DodoPayClient from "../utils/dodopayments";
 
 export default new Elysia().post('/payment-webhook', async ({ headers, body, set }) => {
     try {
-        const payment = await PaymentHandler.handle({
-            headers,
-            body: body
+        const payment = DodoPayClient.webhooks.unwrap(body.toString(), {
+            headers: {
+                'webhook-id': headers['webhook-id']!,
+                'webhook-signature': headers['webhook-signature']!,
+                'webhook-timestamp': headers['webhook-timestamp']!,
+            }
         });
 
         // Subscription start/renewed
